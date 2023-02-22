@@ -10,12 +10,16 @@ const style = {
   button: `flex item-center cursor-pointer`
 }
 
-const Todo = ({todo}) => {
+const Todo = ({todo, toggleComplete}) => {
   return (
-    <li className={style.li}>
+    <li className={todo.completed ? style.liComplete : style.li}>
       <div className={style.row}>
-        <input type="checkbox" />
-        <p className={style.text}>{todo.text}</p>
+        <input 
+          type="checkbox" 
+          checked={todo.completed ? "checked" : ""} 
+          onChange={() => toggleComplete(todo)}
+        />
+        <p className={todo.completed ? style.textComplete : style.text}>{todo.text}</p>
       </div>
       <button>
         {<BiTrash />}
