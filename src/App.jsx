@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {AiOutlinePlus} from 'react-icons/ai';
 import Todo from './components/Todo';
 import { db } from './firebase';
-import { query, onSnapshot, collection, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { query, onSnapshot, collection, updateDoc, doc, addDoc, deleteDoc } from 'firebase/firestore';
 
 const style = {
   bg: `h-screen w-screen p-4 bg-gradient-to-r from-[#2F80ED] to-[#1CB5E0]`,
@@ -34,8 +34,6 @@ function App() {
   }
 
 
-
-
   // read data from firebase
   useEffect(() => {
     const q = query(collection(db, 'todos'))
@@ -55,6 +53,12 @@ function App() {
     await updateDoc(doc(db, 'todos', todo.id), {
       completed: !todo.completed
     })
+  }
+
+
+  // delete todo in firestore
+  const deleteTodo = async (id) => {
+    await deleteDoc(doc(db, 'todos', id))
   }
 
 
@@ -81,12 +85,15 @@ function App() {
               key={index} 
               todo={todo} 
               toggleComplete={toggleComplete} 
+              deleteTodo={deleteTodo}
             />
           ))}
         </ul>
-        <p className={style.count}>
-          {`You have ${todos.length} Todos`}
-        </p>
+        {todos.length < 1 ? null : (
+          <p className={style.count}>
+            {`You have ${todos.length} Todos`}
+          </p>
+        )}
       </div>
     </div>
   );

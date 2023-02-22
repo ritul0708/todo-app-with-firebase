@@ -10,7 +10,7 @@ const style = {
   button: `flex item-center cursor-pointer`
 }
 
-const Todo = ({todo, toggleComplete}) => {
+const Todo = ({todo, toggleComplete, deleteTodo}) => {
   return (
     <li className={todo.completed ? style.liComplete : style.li}>
       <div className={style.row}>
@@ -21,7 +21,7 @@ const Todo = ({todo, toggleComplete}) => {
         />
         <p className={todo.completed ? style.textComplete : style.text}>{todo.text}</p>
       </div>
-      <button>
+      <button onClick={() => deleteTodo(todo.id)}>
         {<BiTrash />}
       </button>
     </li>
